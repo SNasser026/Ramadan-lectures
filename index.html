@@ -75,7 +75,7 @@ h1,h2{
   font-weight:700;
 }
 
-/* ====== تحسين التوافق ====== */
+/* === الجدول === */
 .table-wrapper { 
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -166,10 +166,11 @@ table th:first-child, table td:first-child{ width:150px; }
 
 /* ====== عرض الجوال (Responsive Cards) ====== */
 @media(max-width:480px){
+
   table thead{ display:none; }
 
   table, tbody, tr, td {
-    display:flexbox;
+    display: block;
     width:100%;
   }
 
@@ -189,6 +190,7 @@ table th:first-child, table td:first-child{ width:150px; }
     min-height:38px;
     border:none !important;
     border-bottom:1px solid #ddd !important;
+    font-size: 0.95rem;
   }
 
   td::before {
@@ -198,12 +200,19 @@ table th:first-child, table td:first-child{ width:150px; }
     top:8px;
     font-weight:bold;
     color:var(--accent);
+    font-size: 0.9rem;
   }
 
   tbody td:first-child {
     background:none !important;
     color:#000;
     font-weight:bold;
+  }
+
+  select {
+    width: 100%;
+    padding: 6px;
+    font-size: 1rem;
   }
 }
 </style>
@@ -224,7 +233,7 @@ table th:first-child, table td:first-child{ width:150px; }
       </div>
     </div>
 
-    <h1>جدول محاضرات رمضان 1447 م - جامع الإمام الربيع بن حبيب</h1>
+    <h1>جدول محاضرات رمضان 1447 هـ - جامع الإمام الربيع بن حبيب</h1>
     <h2>السيب - وادي اللوامي</h2>
 
     <div class="table-wrapper">
@@ -275,7 +284,10 @@ function createRow(index) {
   const tdTime=document.createElement("td");
   tdTime.dataset.label = "الوقت";
   const selectTime=document.createElement("select");
-  const options=(weekdayName==="الجمعة") ? ["بعد صلاة الجمعة","بعد صلاة العصر","بعد صلاة المغرب","بعد صلاة العشاء"] : ["بعد صلاة العصر","بعد صلاة الظهر","بعد صلاة المغرب","بعد صلاة العشاء"];
+  const options=(weekdayName==="الجمعة") 
+    ? ["بعد صلاة الجمعة","بعد صلاة العصر","بعد صلاة المغرب","بعد صلاة العشاء"] 
+    : ["بعد صلاة العصر","بعد صلاة الظهر","بعد صلاة المغرب","بعد صلاة العشاء"];
+
   options.forEach(opt=>{
     const option=document.createElement("option");
     option.value=opt;
@@ -283,6 +295,7 @@ function createRow(index) {
     if(loadCell(index,2)===opt) option.selected=true;
     selectTime.appendChild(option);
   });
+
   selectTime.addEventListener("change",()=>saveCell(index,2,selectTime.value));
   tdTime.appendChild(selectTime);
   tr.appendChild(tdTime);
@@ -317,7 +330,7 @@ function populateInitialRows(n=30){
 
 populateInitialRows();
 
-// الحفظ في التخزين المحلي
+// التخزين المحلي
 function saveCell(row,col,value){
   localStorage.setItem(`cell_${row}_${col}`,value);
 }
