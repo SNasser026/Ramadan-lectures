@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>جدول محاضرات رمضان - جامع الإمام الربيع بن حبيب</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+
+:root{
+  --bg:#f0f4f2;
+  --card:#ffffff;
+  --accent:#1e8b63;
+  --gold:#d4af37;
+  --muted:#6b705c;
+  --friday:#cfe3d6;
+  --header-col:#49876d;
+  --first-col:#49876d;
+}
+
+html, body{
+  height:100%; margin:0;
+  font-family:'Amiri', serif;
+  background:var(--bg) url('https://www.toptal.com/designers/subtlepatterns/uploads/moroccan-flower.png') repeat;
+  background-size:cover;
+  color:#000;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after { box-sizing: inherit; }
+
+.container{
+  width: 95%;
+  max-width: 1000px; 
+  margin: 20px auto; 
+  padding: 10px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:14px;
+  padding:1.5rem;
+  border:4px solid var(--gold);
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+  position:relative;
+  background:url('https://www.toptal.com/designers/subtlepatterns/uploads/moroccan-flower.png') repeat;
+  background-size:250px;
+  backdrop-filter:blur(3px);
+}
+
+.card:before{
+  content:"";
+  position:absolute;
+  top:-10px; left:-10px; right:-10px; bottom:-10px;
+  border:3px solid var(--gold);
+  border-radius:20px;
+  pointer-events:none;
+}
+
+h1::before{
+  content:"";
+  display:block;
+  width:200px;
+  height:220px;
+  margin:0 auto 10px;
+  background: url('./img.png') center/contain no-repeat;
+}
+
+h1,h2{
+  font-size:1.5rem;
+  text-align:center;
+  margin-bottom:1rem;
+  color:var(--accent);
+  font-weight:700;
+}
+
+/* ====== تحسين التوافق ====== */
+.table-wrapper { 
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+table{
+  width:100%;
+  min-width:600px;
+  border-collapse: collapse;
+  font-size:1rem;
+  background:#fff;
+  border-radius:12px;
+  border:1px solid var(--gold);
+}
+
+thead th{
+  background:var(--header-col);
+  color:#fff;
+  text-align:center;
+  padding:0.8rem;
+  font-size:1rem;
+  border:1px solid #a9a9a9;
+}
+
+tbody td{
+  padding:0.6rem;
+  text-align:center;
+  border:1px solid #a9a9a9;
+}
+
+tbody tr:nth-child(odd){ background: rgba(211,211,211,0.2); }
+tbody tr:nth-child(even){ background: rgba(211,211,211,0.1); }
+tbody tr:hover{ background: rgba(211,211,211,0.3); }
+
+tbody td:first-child{
+  background:var(--first-col);
+  color:#fff;
+  font-weight:700;
+}
+
+tbody tr.friday{ background-color:var(--friday) !important; }
+
+table th:first-child, table td:first-child{ width:150px; }
+
+/* ====== Header ====== */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0.5rem 1rem;
+}
+
+#saveBtn {
+  padding:0.5rem 1rem;
+  border-radius: 12px;
+  cursor:pointer;
+  font-weight:bold;
+  color:#fff;
+  font-size:1rem;
+  border:none;
+  transition:0.2s;
+  margin:0.2rem;
+  background: var(--gold);
+}
+#saveBtn:hover { background: #c49b2c; }
+
+#saveMessage {
+  color: green;
+  font-weight: bold;
+  display: none;
+  margin-left: 0.5rem;
+}
+
+.contact-box {
+  background: var(--card);
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  text-align: center;
+  color: var(--accent);
+  font-size: 0.9rem;
+  line-height: 1.3;
+  display: inline-block;
+  margin-top:0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* ====== عرض الجوال (Responsive Cards) ====== */
+@media(max-width:480px){
+  table thead{ display:none; }
+
+  table, tbody, tr, td {
+    display:flexbox;
+    width:100%;
+  }
+
+  tr {
+    margin-bottom:15px;
+    background:#fff;
+    border-radius:10px;
+    padding:10px;
+    border:1px solid var(--gold);
+  }
+
+  td {
+    text-align:right;
+    padding:8px;
+    position:relative;
+    padding-right:110px;
+    min-height:38px;
+    border:none !important;
+    border-bottom:1px solid #ddd !important;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position:absolute;
+    right:10px;
+    top:8px;
+    font-weight:bold;
+    color:var(--accent);
+  }
+
+  tbody td:first-child {
+    background:none !important;
+    color:#000;
+    font-weight:bold;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <button id="saveBtn">💾 حفظ</button>
+        <span id="saveMessage">تم الحفظ بنجاح ✅</span>
+      </div>
+      <div class="contact-box">
+        <strong> إدارة الجامع:</strong><br/>
+        فيصل المبسلي: 98036047<br/>
+        داوود المبسلي: 95522897
+      </div>
+    </div>
+
+    <h1>جدول محاضرات رمضان 1447 م - جامع الإمام الربيع بن حبيب</h1>
+    <h2>السيب - وادي اللوامي</h2>
+
+    <div class="table-wrapper">
+      <table id="mainTable" aria-label="جدول محاضرات رمضان">
+        <thead>
+          <tr>
+            <th>التاريخ</th>
+            <th>الوقت</th>
+            <th>اسم المحاضر</th>
+            <th>رقم التواصل</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+const tbody = document.querySelector("#mainTable tbody");
+
+function createRow(index) {
+  const tr = document.createElement("tr");
+
+  const startDate = new Date(2026,1,18);
+  const currentDate = new Date(startDate);
+  currentDate.setDate(startDate.getDate() + (index-1));
+
+  const day = currentDate.getDate();
+  const month = currentDate.getMonth()+1;
+  const year = currentDate.getFullYear();
+
+  const weekdays = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+  const weekdayName = weekdays[currentDate.getDay()];
+  if(weekdayName==="الجمعة") tr.classList.add("friday");
+
+  // التاريخ
+  const tdDate = document.createElement("td");
+  tdDate.dataset.label = "التاريخ";
+  tdDate.contentEditable=true;
+  tdDate.dataset.row=index;
+  tdDate.dataset.col=1;
+  tdDate.textContent=`${day}/${month}/${year} - ${weekdayName} - رمضان ${index}`;
+  tdDate.addEventListener("input",()=>saveCell(index,1,tdDate.textContent));
+  tr.appendChild(tdDate);
+
+  // الوقت
+  const tdTime=document.createElement("td");
+  tdTime.dataset.label = "الوقت";
+  const selectTime=document.createElement("select");
+  const options=(weekdayName==="الجمعة") ? ["بعد صلاة الجمعة","بعد صلاة العصر","بعد صلاة المغرب","بعد صلاة العشاء"] : ["بعد صلاة العصر","بعد صلاة الظهر","بعد صلاة المغرب","بعد صلاة العشاء"];
+  options.forEach(opt=>{
+    const option=document.createElement("option");
+    option.value=opt;
+    option.textContent=opt;
+    if(loadCell(index,2)===opt) option.selected=true;
+    selectTime.appendChild(option);
+  });
+  selectTime.addEventListener("change",()=>saveCell(index,2,selectTime.value));
+  tdTime.appendChild(selectTime);
+  tr.appendChild(tdTime);
+
+  // اسم المحاضر
+  const tdName=document.createElement("td");
+  tdName.dataset.label = "اسم المحاضر";
+  tdName.contentEditable=true;
+  tdName.dataset.row=index;
+  tdName.dataset.col=3;
+  tdName.textContent=loadCell(index,3)||"";
+  tdName.addEventListener("input",()=>saveCell(index,3,tdName.textContent));
+  tr.appendChild(tdName);
+
+  // رقم التواصل
+  const tdContact=document.createElement("td");
+  tdContact.dataset.label = "رقم التواصل";
+  tdContact.contentEditable=true;
+  tdContact.dataset.row=index;
+  tdContact.dataset.col=4;
+  tdContact.textContent=loadCell(index,4)||"";
+  tdContact.addEventListener("input",()=>saveCell(index,4,tdContact.textContent));
+  tr.appendChild(tdContact);
+
+  return tr;
+}
+
+function populateInitialRows(n=30){
+  tbody.innerHTML="";
+  for(let i=1;i<=n;i++) tbody.appendChild(createRow(i));
+}
+
+populateInitialRows();
+
+// الحفظ في التخزين المحلي
+function saveCell(row,col,value){
+  localStorage.setItem(`cell_${row}_${col}`,value);
+}
+function loadCell(row,col){
+  return localStorage.getItem(`cell_${row}_${col}`);
+}
+
+document.getElementById("saveBtn").addEventListener("click",()=>{
+  const rows=tbody.querySelectorAll("tr");
+  rows.forEach(tr=>{
+    tr.querySelectorAll("td").forEach(td=>{
+      saveCell(td.dataset.row,td.dataset.col,td.textContent)
+    });
+    const select=tr.querySelector("select");
+    if(select) saveCell(tr.querySelector("td").dataset.row,2,select.value);
+  });
+
+  const msg=document.getElementById("saveMessage");
+  msg.style.display="inline";
+  setTimeout(()=>{ msg.style.display="none";},2000);
+});
+</script>
+
+</body>
+</html>
