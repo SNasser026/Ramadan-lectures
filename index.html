@@ -80,7 +80,7 @@ for (let i=1;i<=TOTAL_DAYS;i++){
 }
 
 // رابط Web App
-const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwSf3aa1B2VvLWKPjZFnuTzLPghMC_9VeyLKiX7SbUSbl58pElFK4A_qxZdCahIfUVA/exec";
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxIZOlTPz8Bmwa-PEVwPVp5RQ3fAWMtTyOFGXUvi4Kd4Jmm60wa6R8LPTYGN1AjnCoI/exec";
 
 document.getElementById("saveBtn").addEventListener("click", async ()=>{
   const rows=[];
@@ -91,7 +91,6 @@ document.getElementById("saveBtn").addEventListener("click", async ()=>{
   try{
     const res=await fetch(WEBAPP_URL,{
       method:"POST",
-      mode:"cors",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify(rows)
     });
