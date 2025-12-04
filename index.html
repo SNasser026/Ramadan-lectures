@@ -141,10 +141,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   try {
     const response = await fetch(url, {
-      method: "POST",
-      mode: "cors",  // أضف هذا السطر
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(rows)
+    method: "POST",
+    mode: "cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(rows)
+
     });
 
     const result = await response.json();
@@ -172,5 +173,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
