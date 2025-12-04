@@ -44,70 +44,97 @@ button { padding:0.5rem 1rem; margin:0.2rem; cursor:pointer; border-radius:12px;
 
 <script>
 const TOTAL_DAYS = 30;
-const START_DATE = new Date(2026,1,18);
+const START_DATE = new Date(2026,1,18); // 18 فبراير 2026
 const weekdays = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 const tbody = document.querySelector("#mainTable tbody");
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxIZOlTPz8Bmwa-PEVwPVp5RQ3fAWMtTyOFGXUvi4Kd4Jmm60wa6R8LPTYGN1AjnCoI/exec";
 
-// إنشاء الصفوف
-for (let i=1;i<=TOTAL_DAYS;i++){
-  const tr=document.createElement("tr");
-  const date=new Date(START_DATE);
+// إنشاء الصفوف تلقائيًا
+for (let i=1; i<=TOTAL_DAYS; i++) {
+  const tr = document.createElement("tr");
+  const date = new Date(START_DATE);
   date.setDate(START_DATE.getDate() + (i-1));
   const weekdayName = weekdays[date.getDay()];
-  if (weekdayName==="الجمعة") tr.classList.add("friday");
+  if (weekdayName === "الجمعة") tr.classList.add("friday");
 
-  const tdDate=document.createElement("td");
-  tdDate.contentEditable=true;
-  tdDate.textContent=`${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} - ${weekdayName} - رمضان ${i}`;
+  // التاريخ
+  const tdDate = document.createElement("td");
+  tdDate.contentEditable = true;
+  tdDate.textContent = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} - ${weekdayName} - رمضان ${i}`;
   tr.appendChild(tdDate);
 
-  const tdTime=document.createElement("td");
-  const selectTime=document.createElement("select");
-  const options = weekdayName==="الجمعة"
+  // الوقت
+  const tdTime = document.createElement("td");
+  const selectTime = document.createElement("select");
+  const options = weekdayName === "الجمعة"
     ? ["بعد صلاة الجمعة","بعد صلاة العصر","بعد صلاة المغرب","بعد صلاة العشاء"]
     : ["بعد صلاة العصر","بعد صلاة الظهر","بعد صلاة المغرب","بعد صلاة العشاء"];
-  options.forEach(opt=>{
-    const option=document.createElement("option");
-    option.value=opt; option.textContent=opt; selectTime.appendChild(option);
+  options.forEach(opt => {
+    const option = document.createElement("option");
+    option.value = opt;
+    option.textContent = opt;
+    selectTime.appendChild(option);
   });
   tdTime.appendChild(selectTime);
   tr.appendChild(tdTime);
 
-  const tdName=document.createElement("td"); tdName.contentEditable=true; tr.appendChild(tdName);
-  const tdPhone=document.createElement("td"); tdPhone.contentEditable=true; tr.appendChild(tdPhone);
+  // اسم المحاضر
+  const tdName = document.createElement("td");
+  tdName.contentEditable = true;
+  tr.appendChild(tdName);
+
+  // رقم التواصل
+  const tdPhone = document.createElement("td");
+  tdPhone.contentEditable = true;
+  tr.appendChild(tdPhone);
 
   tbody.appendChild(tr);
 }
 
-// رابط Web App
-const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxIZOlTPz8Bmwa-PEVwPVp5RQ3fAWMtTyOFGXUvi4Kd4Jmm60wa6R8LPTYGN1AjnCoI/exec";
-
-document.getElementById("saveBtn").addEventListener("click", async ()=>{
-  const rows=[];
-  document.querySelectorAll("#mainTable tbody tr").forEach(tr=>{
-    const tds=tr.querySelectorAll("td");
-    rows.push([tds[0].textContent.trim(), tds[1].querySelector("select").value, tds[2].textContent.trim(), tds[3].textContent.trim()]);
-  });
-  try{
-    const res=await fetch(WEBAPP_URL,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
+// دالة حفظ البيانات إلى Google Sheets
+async function saveData(rows) {
+  const msg = document.getElementById("saveMessage");
+  try {
+    const response = await fetch(WEBAPP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(rows)
     });
-    const result=await res.json();
+
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    const result = await response.json();
     console.log(result);
-    if(result.status==="success"){
-      const msg=document.getElementById("saveMessage");
-      msg.style.display="inline";
-      setTimeout(()=>{msg.style.display="none";},2000);
+
+    if (result.status === "success") {
+      msg.style.display = "inline";
+      setTimeout(() => { msg.style.display = "none"; }, 2000);
+    } else {
+      alert("⚠ حدث خطأ أثناء الحفظ: " + (result.message || "خطأ غير معروف"));
     }
-  }catch(err){
-    alert("⚠ حدث خطأ أثناء الحفظ!");
+  } catch (err) {
+    alert("⚠ حدث خطأ أثناء الحفظ: " + err.message);
     console.error(err);
   }
+}
+
+// حدث الضغط على زر الحفظ
+document.getElementById("saveBtn").addEventListener("click", () => {
+  const rows = Array.from(document.querySelectorAll("#mainTable tbody tr")).map(tr => {
+    const tds = tr.querySelectorAll("td");
+    return [
+      tds[0].textContent.trim(),
+      tds[1].querySelector("select").value,
+      tds[2].textContent.trim(),
+      tds[3].textContent.trim()
+    ];
+  });
+  saveData(rows);
 });
 
-document.getElementById("printBtn").addEventListener("click",()=>window.print());
+// حدث الطباعة
+document.getElementById("printBtn").addEventListener("click", () => window.print());
+
 </script>
 
 </body>
