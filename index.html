@@ -125,36 +125,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 🔗 حفظ البيانات في Google Sheets
   async function saveToGoogleSheet() {
-    const url = "https://script.google.com/macros/s/AKfycbziO5XYo1aiOd4SaDM-jWjpK9hHEQdKCqQL5C9oP1O-vZGHOjpeEOnNySBgRTisdr9rOw/exec";  
-    // ضع رابط الويب آب هنا
+  const url = "https://script.google.com/macros/s/AKfycbziO5XYo1aiOd4SaDM-jWjpK9hHEQdKCqQL5C9oP1O-vZGHOjpeEOnNySBgRTisdr9rOw/exec";
 
-    const rows = [];
-    const trs = document.querySelectorAll("#mainTable tbody tr");
+  const rows = [];
+  const trs = document.querySelectorAll("#mainTable tbody tr");
 
-    trs.forEach(tr => {
-      const tds = tr.querySelectorAll("td");
-      const date = tds[0].textContent.trim();
-      const time = tds[1].querySelector("select").value;
-      const name = tds[2].textContent.trim();
-      const phone = tds[3].textContent.trim();
-      rows.push([date, time, name, phone]);
+  trs.forEach(tr => {
+    const tds = tr.querySelectorAll("td");
+    const date = tds[0].textContent.trim();
+    const time = tds[1].querySelector("select").value;
+    const name = tds[2].textContent.trim();
+    const phone = tds[3].textContent.trim();
+    rows.push([date, time, name, phone]);
+  });
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      mode: "cors",  // أضف هذا السطر
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(rows)
     });
 
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(rows),
-        headers: { "Content-Type": "application/json" }
-      });
+    const result = await response.json();
+    console.log(result);
 
-      const result = await response.json();
-      console.log(result);
-
-    } catch (error) {
-      alert("⚠ حدث خطأ أثناء الحفظ!");
-      console.error(error);
-    }
+  } catch (error) {
+    alert("⚠ حدث خطأ أثناء الحفظ!");
+    console.error(error);
   }
+}
 
   // زر الحفظ
   const saveBtn = document.getElementById("saveBtn");
@@ -172,3 +172,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
